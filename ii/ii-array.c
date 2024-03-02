@@ -9,11 +9,11 @@
 #define __array_get(_arr, _idx) ((_arr)->buf + __array_off(_arr, _idx))
 
 struct __array_ext {
-  void * buf;      /* underlying memory buffer */
-  size_t len;      /* effective array length   */
-  size_t obj_size; /* size of object in memory */
+  void *   buf;      /* underlying memory buffer */
+  size_t   len;      /* effective array length   */
+  size_t   obj_size; /* size of object in memory */
   mutate_f obj_free; /* function to free object  */
-  size_t cap;      /* current array capacity   */
+  size_t   cap;      /* current array capacity   */
 };
 typedef struct __array_ext __array_ext_t;
 
