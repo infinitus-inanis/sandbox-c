@@ -6,8 +6,8 @@
 #include "stdlib.h"
 #include "string.h"
 
-ii_log_lvl_t ii_log_lvl = ii_log_lvl_dbg;
-const char * ii_log_tag = "algo";
+log_lvl_t    log_lvl = log_lvl_dbg;
+const char * log_tag = "algo";
 
 int int_lt(void * l, void * r) {
   int lv = *(int *)l;
