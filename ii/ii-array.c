@@ -92,37 +92,6 @@ array_add(array_t * farr, void * objs, size_t objslen) {
   arr->len += objslen;
 }
 
-char *
-array_to_str(array_t * farr, to_str_f obj_to_str, char * sep) {
-  __array_ext_t * arr = (__array_ext_t *)farr;
-  if (!arr->len) {
-    return NULL;
-  }
-  if (!sep) {
-    sep = " ";
-  }
-  char * ret = NULL;
-  size_t retlen = 0;
-  char * tmp[arr->len];
-  for (size_t i = 0; i < arr->len; ++i) {
-    if (i != 0) {
-      retlen += strlen(sep);
-    }
-    char * str = tmp[i] = obj_to_str(__array_get(arr, i));
-    retlen += strlen(str);
-  }
-  char * dst = ret = malloc(retlen + 1);
-  for (size_t i = 0; i < arr->len; ++i) {
-    if (i != 0) {
-      dst = strcat_fast(dst, sep);
-    }
-    char * str = tmp[i];
-    dst = strcat_fast(dst, str);
-    free(str);
-  }
-  return ret;
-}
-
 void 
 array_insertion_sort(array_t * farr, compare_f cmp) {
   __array_ext_t * arr = (__array_ext_t *)farr;
@@ -214,4 +183,35 @@ array_merge_sort(array_t * farr, compare_f cmp) {
     __array_get(arr, 0),
     __array_get(arr, arr->len - 1)
   );
+}
+
+char *
+array_to_str(array_t * farr, to_str_f obj_to_str, char * sep) {
+  __array_ext_t * arr = (__array_ext_t *)farr;
+  if (!arr->len) {
+    return NULL;
+  }
+  if (!sep) {
+    sep = " ";
+  }
+  char * ret = NULL;
+  size_t retlen = 0;
+  char * tmp[arr->len];
+  for (size_t i = 0; i < arr->len; ++i) {
+    if (i != 0) {
+      retlen += strlen(sep);
+    }
+    char * str = tmp[i] = obj_to_str(__array_get(arr, i));
+    retlen += strlen(str);
+  }
+  char * dst = ret = malloc(retlen + 1);
+  for (size_t i = 0; i < arr->len; ++i) {
+    if (i != 0) {
+      dst = strcat_fast(dst, sep);
+    }
+    char * str = tmp[i];
+    dst = strcat_fast(dst, str);
+    free(str);
+  }
+  return ret;
 }
