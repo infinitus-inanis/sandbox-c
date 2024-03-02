@@ -27,7 +27,7 @@ __array_maybe_expand(__array_ext_t * arr, size_t exp) {
   arr->cap = req;
   arr->buf = realloc(
     arr->buf,
-    arr->obj_size * arr->cap
+    __array_off(arr, arr->cap)
   );
 }
 
@@ -87,7 +87,7 @@ array_add(array_t * farr, void * objs, size_t objslen) {
   memcpy(
     __array_get(arr, arr->len),
     objs,
-    objslen * arr->obj_size
+    __array_off(arr, objslen)
   );
   arr->len += objslen;
 }
