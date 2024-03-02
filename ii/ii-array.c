@@ -92,6 +92,14 @@ array_add(array_t * farr, void * objs, size_t objslen) {
   arr->len += objslen;
 }
 
+void * 
+array_get(array_t * arr, size_t idx) {
+  if (idx < arr->len) {
+    return NULL;
+  }
+  return __array_get(arr, idx);
+}
+
 void 
 array_insertion_sort(array_t * farr, compare_f cmp) {
   __array_ext_t * arr = (__array_ext_t *)farr;
@@ -100,28 +108,28 @@ array_insertion_sort(array_t * farr, compare_f cmp) {
   }
 
   size_t sz = arr->obj_size;
-  byte_t vT[sz];
-  byte_t * v0 = __array_get(arr, 0);
-  byte_t * vN = __array_get(arr, arr->len);
-  byte_t * vi = __array_get(arr, 1);
-  while (vi < vN) {
-    memcpy(vT, vi, sz);
-    byte_t * vj = vi - sz;
-    while (vj >= v0) {
-      if (cmp(vj, vT) < 0) {
+  byte_t _t[sz];
+  byte_t * _0 = __array_get(arr, 0);
+  byte_t * _N = __array_get(arr, arr->len);
+  byte_t * _i = __array_get(arr, 1);
+  while (_i < _N) {
+    memcpy(_t, _i, sz);
+    byte_t * _j = _i - sz;
+    while (_j >= _0) {
+      if (cmp(_j, _t) < 0) {
         break;
       }
-      memcpy(vj + sz, vj, sz);
-      vj -= sz;
+      memcpy(_j + sz, _j, sz);
+      _j -= sz;
     }
-    memcpy(vj + sz, vT, sz);
-    vi += sz;
+    memcpy(_j + sz, _t, sz);
+    _i += sz;
   }
 }
 
 static
 void
-___array_merge_impl(
+__array_merge_impl(
   __array_ext_t * arr,
   compare_f cmp,
   byte_t * ls,
@@ -130,19 +138,19 @@ ___array_merge_impl(
   byte_t * re
 ) {
   size_t sz = arr->obj_size;
-  byte_t vT[sz];
+  byte_t _t[sz];
   while (ls <= le && rs <= re) {
     if (cmp(ls, rs) <= 0) {
       ls += sz;
       continue;
     }
-    memcpy(vT, rs, sz);
+    memcpy(_t, rs, sz);
     byte_t * rT = rs;
     while (rT > ls) {
       memcpy(rT, rT - sz, sz);
       rT -= sz;
     }
-    memcpy(ls, vT, sz);
+    memcpy(ls, _t, sz);
     ls += sz;
     le += sz;
     rs += sz;
@@ -151,7 +159,7 @@ ___array_merge_impl(
 
 static
 void
-___array_merge_sort(
+__array_merge_sort(
   __array_ext_t * arr, 
   compare_f cmp, 
   byte_t * ls, 
@@ -164,13 +172,13 @@ ___array_merge_sort(
   size_t m = (size_t)(re - ls) / arr->obj_size / 2;
   byte_t * le = ls + __array_off(arr, m);
   byte_t * rs = le + __array_off(arr, 1);
-  ___array_merge_sort(arr, cmp, ls, le);
-  ___array_merge_sort(arr, cmp, rs, re);
+  __array_merge_sort(arr, cmp, ls, le);
+  __array_merge_sort(arr, cmp, rs, re);
 
   if (cmp(le, rs) <= 0) {
     return;
   }
-  ___array_merge_impl(arr, cmp, ls, le, rs, re);
+  __array_merge_impl(arr, cmp, ls, le, rs, re);
 }
 
 void
@@ -179,7 +187,7 @@ array_merge_sort(array_t * farr, compare_f cmp) {
   if (arr->len < 2) {
     return;
   }
-  ___array_merge_sort(arr, cmp,
+  __array_merge_sort(arr, cmp,
     __array_get(arr, 0),
     __array_get(arr, arr->len - 1)
   );

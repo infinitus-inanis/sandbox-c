@@ -35,14 +35,20 @@ void array_log(array_t * arr, to_str_f obj_to_str, char * tag) {
 }
 
 int main(void) {
-  int vals[] = { 5, 2, 4, 7, 1, 3, 2, 6 };
   array_t * arr = array_new3(sizeof(int));
-  array_add(arr, vals, arr_sz(vals));
-  array_log(arr, int_to_str, "origin:");
-  array_insertion_sort(arr, int_lt);
-  array_log(arr, int_to_str, "i-sort:");
-  array_merge_sort(arr, int_lt);
-  array_log(arr, int_to_str, "m-sort:");
+  {// initialize
+    int vals[] = { 5, 2, 4, 7, 1, 3, 2, 6 };
+    array_add(arr, vals, arr_sz(vals));
+    array_log(arr, int_to_str, "origin:");
+  }
+  {// insertion sort
+    array_insertion_sort(arr, int_lt);
+    array_log(arr, int_to_str, "i-sort:");
+  }
+  {// merge sort
+    array_merge_sort(arr, int_gt);
+    array_log(arr, int_to_str, "m-sort:");
+  }
   array_free(arr, false);
   return 0;
 }

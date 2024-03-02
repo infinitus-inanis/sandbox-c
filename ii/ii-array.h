@@ -17,7 +17,8 @@ array_t * array_new2(size_t obj_size, size_t cap);
 array_t * array_new3(size_t obj_size);
 void *    array_free(array_t * arr, bool extract_buf);
 
-void array_add(array_t * arr, void * objs, size_t objslen);
+void   array_add(array_t * arr, void * objs, size_t objslen);
+void * array_get(array_t * arr, size_t idx);
 
 void array_insertion_sort(array_t * arr, compare_f cmp);
 void array_merge_sort(array_t * arr, compare_f cmp);
