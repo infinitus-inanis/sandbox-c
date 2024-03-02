@@ -11,8 +11,8 @@ struct __array {
 };
 typedef struct __array array_t;
 
-array_t * array_new0(size_t obj_size, free_f obj_free, size_t cap);
-array_t * array_new1(size_t obj_size, free_f obj_free);
+array_t * array_new0(size_t obj_size, mutate_f obj_free, size_t cap);
+array_t * array_new1(size_t obj_size, mutate_f obj_free);
 array_t * array_new2(size_t obj_size, size_t cap);
 array_t * array_new3(size_t obj_size);
 void *    array_free(array_t * arr, bool extract_buf);

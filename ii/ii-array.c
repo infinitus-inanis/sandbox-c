@@ -12,7 +12,7 @@ struct __array_ext {
   void * buf;      /* underlying memory buffer */
   size_t len;      /* effective array length   */
   size_t obj_size; /* size of object in memory */
-  free_f obj_free; /* function to free object  */
+  mutate_f obj_free; /* function to free object  */
   size_t cap;      /* current array capacity   */
 };
 typedef struct __array_ext __array_ext_t;
@@ -32,7 +32,7 @@ __array_maybe_expand(__array_ext_t * arr, size_t exp) {
 }
 
 array_t *
-array_new0(size_t obj_size, free_f obj_free, size_t cap) {
+array_new0(size_t obj_size, mutate_f obj_free, size_t cap) {
   __array_ext_t * ret = malloc(sizeof(__array_ext_t));
   ret->buf      = NULL;
   ret->len      = 0;
@@ -46,7 +46,7 @@ array_new0(size_t obj_size, free_f obj_free, size_t cap) {
 }
 
 array_t *
-array_new1(size_t obj_size, free_f obj_free) {
+array_new1(size_t obj_size, mutate_f obj_free) {
   return array_new0(obj_size, obj_free, 0);
 }
 
