@@ -202,9 +202,9 @@ array_to_str(array_t * farr, to_str_f obj_to_str, char * sep) {
   if (!sep) {
     sep = " ";
   }
-  char * ret = NULL;
-  size_t retlen = 0;
-  char * tmp[arr->len];
+  char *  ret = NULL;
+  size_t  retlen = 0;
+  char ** tmp = malloc(arr->len * sizeof(char *));
   for (size_t i = 0; i < arr->len; ++i) {
     if (i != 0) {
       retlen += strlen(sep);
@@ -221,5 +221,6 @@ array_to_str(array_t * farr, to_str_f obj_to_str, char * sep) {
     dst = strcat_fast(dst, str);
     free(str);
   }
+  free(tmp);
   return ret;
 }
