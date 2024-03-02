@@ -24,7 +24,7 @@ memswp(void * m0, void * m1, size_t mem_sz) {
 
 size_t
 str_sz(char * str) {
-  return str ? strlen(str) + 1 : 0;
+  return str ? strlen(str) + (/*null*/ 1) : 0;
 }
 
 static 
@@ -35,7 +35,7 @@ __strcat_fast_unsafe_valist(char * dst, va_list args) {
   char * src = NULL;
   while ((src = va_arg(argscp, char *))) {
     size_t srclen = strlen(src);
-    memcpy(dst, src, srclen + 1);
+    memcpy(dst, src, srclen + (/*null*/ 1));
     dst += srclen;
   }
   va_end(argscp);
@@ -55,10 +55,7 @@ char *
 strfmt_valist(char * fmt, va_list args) {
   va_list argscp;
   va_copy(argscp, args);
-  size_t ret_sz = (size_t)(
-    vsnprintf(NULL, 0, fmt, argscp) + 
-    (/*nullchar*/ 1)
-  );
+  size_t ret_sz = (size_t)(vsnprintf(NULL, 0, fmt, argscp) + (/*null*/ 1));
   va_end(argscp);
   char * ret = malloc(ret_sz);
   vsnprintf(ret, ret_sz, fmt, args);

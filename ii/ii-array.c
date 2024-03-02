@@ -212,7 +212,7 @@ array_to_str(array_t * farr, to_str_f obj_to_str, char * sep) {
     char * str = tmp[i] = obj_to_str(__array_get(arr, i));
     retlen += strlen(str);
   }
-  char * dst = ret = malloc(retlen + 1);
+  char * dst = ret = malloc(retlen + (/*null*/ 1));
   for (size_t i = 0; i < arr->len; ++i) {
     if (i != 0) {
       dst = strcat_fast(dst, sep);
