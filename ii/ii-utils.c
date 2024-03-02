@@ -11,7 +11,7 @@ memdup(void * mem, size_t mem_sz) {
 }
 
 void
-memswap(void * m0, void * m1, size_t mem_sz) {
+memswp(void * m0, void * m1, size_t mem_sz) {
   byte_t * bm0 = (byte_t *)m0;
   byte_t * bm1 = (byte_t *)m1;
   byte_t * bme = bm0 + mem_sz;
@@ -29,7 +29,7 @@ str_sz(char * str) {
 
 static 
 char *
-___strcat_fast_unsafe_valist(char * dst, va_list args) {
+__strcat_fast_unsafe_valist(char * dst, va_list args) {
   va_list argscp;
   va_copy(argscp, args);
   char * src = NULL;
@@ -46,7 +46,7 @@ char *
 strcat_fast_unsafe(char * dst, ...) {
   va_list args;
   va_start(args, dst);
-  char * ret = ___strcat_fast_unsafe_valist(dst, args);
+  char * ret = __strcat_fast_unsafe_valist(dst, args);
   va_end(args);
   return ret;
 }

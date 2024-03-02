@@ -38,7 +38,7 @@ int main(void) {
   array_t * arr = array_new3(sizeof(int));
   {// initialize
     int vals[] = { 5, 2, 4, 7, 1, 3, 2, 6 };
-    array_add(arr, vals, arr_sz(vals));
+    array_add(arr, vals, ARR_SZ(vals));
     array_log(arr, int_to_str, "origin:");
   }
   {// insertion sort
