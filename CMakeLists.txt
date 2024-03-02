@@ -21,7 +21,7 @@ endif()
 
 target_sources(${PROJECT_NAME}
   PUBLIC
-    ii/ii-stdext.c
+    ii/ii-utils.c
     ii/ii-array.c
 )
 

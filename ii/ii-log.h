@@ -15,7 +15,7 @@ extern const char * ii_log_tag;
   do { if (ii_log_lvl >= _lvl) { _exp; } } while(0)
 
 #define __ii_log_expr(_fun, _fmt, ...) \
-  _fun("[%s][%s:%d] " _fmt, ii_log_tag, __FUNCTION__, __LINE__, ##__VA_ARGS__)
+  _fun("[%s][%s:%d] " _fmt "\n", ii_log_tag, __FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #define __ii_log_impl_e(_exp) __ii_log_impl(ii_log_lvl_err, _exp)
 #define __ii_log_impl_w(_exp) __ii_log_impl(ii_log_lvl_wrn, _exp)
@@ -23,8 +23,8 @@ extern const char * ii_log_tag;
 #define __ii_log_impl_d(_exp) __ii_log_impl(ii_log_lvl_dbg, _exp)
 
 #include "stdio.h"
-#define msgerr(_fmt, ...) fprintf(stderr, _fmt "\n", ##__VA_ARGS__)
-#define msgout(_fmt, ...) fprintf(stdout, _fmt "\n", ##__VA_ARGS__)
+#define msgerr(_fmt, ...) fprintf(stderr, _fmt, ##__VA_ARGS__)
+#define msgout(_fmt, ...) fprintf(stdout, _fmt, ##__VA_ARGS__)
 
 #define loge(_fmt, ...) __ii_log_impl_e(__ii_log_expr(msgerr, _fmt, ##__VA_ARGS__))
 #define logw(_fmt, ...) __ii_log_impl_w(__ii_log_expr(msgerr, _fmt, ##__VA_ARGS__))

@@ -1,40 +1,48 @@
-#include "stdlib.h"
-#include "stdint.h"
-#include "stdbool.h"
-#include "string.h"
-
-#include "ii/ii-log.h"
-#include "ii/ii-stdext.h"
+#include "ii/ii-types.h"
+#include "ii/ii-utils.h"
 #include "ii/ii-array.h"
+#include "ii/ii-log.h"
+
+#include "stdlib.h"
+#include "string.h"
 
 ii_log_lvl_t ii_log_lvl = ii_log_lvl_dbg;
 const char * ii_log_tag = "algo";
 
-s32 __int_cmp(void * l, void * r) {
-  s32 lv = *(s32 *)l;
-  s32 rv = *(s32 *)r;
-  return  lv < rv ? -1 :
-          lv > rv ?  1 : 0;
+int int_lt(void * l, void * r) {
+  int lv = *(int *)l;
+  int rv = *(int *)r;
+  return lv < rv ? -1 :
+         lv > rv ?  1 : 0;
 }
 
-char * __int_2str(void * t) {
+int int_gt(void * l, void * r) {
+  int lv = *(int *)l;
+  int rv = *(int *)r;
+  return lv < rv ?  1 :
+         lv > rv ? -1 : 0;
+}
+
+char * int_to_str(void * t) {
   int tv = *(int *)t;
-  return ii_strfmt("%d", tv);
+  return strfmt("%d", tv);
 }
 
-void __array_log(ii_array_t * arr, ii_2str_t obj_2str, char * tag) {
-  char * str = ii_array_2str(arr, obj_2str, ", ");
-  logi("%s %s", tag, str ? str : "<empty>");
+void array_log(array_t * arr, to_str_f obj_to_str, char * tag) {
+  char * str = array_to_str(arr, obj_to_str, ", ");
+  msgout("%s %s \n", tag, str ? str : "<empty>");
   free(str);
 }
 
-s32 main(void) {
-  s32 vals[] = { 5, 2, 4, 6, 1, 3 };
-  ii_array_t * arr = ii_array_new3(sizeof(int));
-  ii_array_add(arr, vals, ii_arr_sz(vals));
-  __array_log(arr, __int_2str, "prev:");
-  ii_array_insertion_sort(arr, __int_cmp);
-  __array_log(arr, __int_2str, "curr:");
-  ii_array_free(arr, false);
+int main(void) {
+  int vals[] = { 5, 2, 4, 7, 1, 3, 2, 6 };
+  array_t * arr = array_new3(sizeof(int));
+  array_add(arr, vals, arr_sz(vals));
+  array_log(arr, int_to_str, "origin:");
+  array_insertion_sort(arr, int_lt);
+  array_log(arr, int_to_str, "i-sort:");
+  array_merge_sort(arr, int_lt);
+  array_log(arr, int_to_str, "m-sort:");
+  array_free(arr, false);
   return 0;
 }
