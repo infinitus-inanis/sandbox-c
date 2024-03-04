@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22.1)
-project(algo LANGUAGES C)
+project(sandbox-c LANGUAGES C)
 
 add_compile_options(
   -Wall -Wextra -Wconversion
@@ -16,11 +16,11 @@ add_subdirectory(ii/)
 add_executable(${PROJECT_NAME} main.c)
 
 target_include_directories(${PROJECT_NAME} 
-  PUBLIC 
+  PRIVATE 
     ${PROJECT_SOURCE_DIR}
     ii/
 )
 target_link_libraries(${PROJECT_NAME}
-  PUBLIC
-    lib-ii
+  PRIVATE
+    ii
 )

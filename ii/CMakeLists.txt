@@ -1,4 +1,4 @@
-set(ii_name lib-ii)
+set(ii_name ii)
 add_library(${ii_name} STATIC)
 target_sources(${ii_name}
   PRIVATE

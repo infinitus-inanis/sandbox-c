@@ -18,9 +18,9 @@ function __build() {
   popd &> /dev/null
 }
 
-function __run() {
+function __start() {
   [ -d build ] && {
-    ./build/algo "$@"
+    ./build/sandbox-c "$@"
   }
 }
 
@@ -32,22 +32,25 @@ function __clean() {
 
 function __debug() {
   [ -d build ] && {
-    gdb build/algo
+    gdb build/sandbox-c
   }
 }
 
 case $1 in
   build) { __build; };;
-  run)   { __run "${@:2}"; };;
+  start) { __start "${@:2}"; };;
   clean) { __clean; };;
   debug) { __debug "${@:2}"; };;
-  all|*)   { 
+  all)   { 
     echo "== build =="
     __build;
     echo
     echo "== start =="
-    __run "${@:2}"; 
+    __start "${@:2}"; 
     echo
+  };;
+  *) {
+    echo "unknown arguments: $@" >& 2
   };;
 esac
 
